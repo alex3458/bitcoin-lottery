@@ -10,35 +10,17 @@ import LottoResult from 'components/home/lotto-result';
 import News from 'components/home/news';
 import { parseJsonFile } from 'helpers/json';
 import { parseStringPromise } from 'xml2js';
-import { ModalDialog } from 'components/dialog';
 import { getAllDraws, getResultsByBrand } from 'service/globalinfo';
 // import { parseXmlFile } from 'helpers/xml';
 
 export default function Home(props) {
 
 	const { banners, lotteries, news, results } = props;
-	const [modal, setModal] = useState(false);
-
-	const showModal = useCallback(() => {
-		setModal(true);
-	}, []);
-
-	const hideModal = useCallback(() => {
-		setModal(false);
-	}, []);
 
 	return (
 		<Layout>
 			<Head><title>Bitcoin Lottery - Lottery with Bitcoins</title></Head>
 			<main id="main" className="clearfix">
-				<ModalDialog
-					show={modal}
-					header={'Confirm'}
-					body={'Coming soon'}
-					footer={(
-							<button onClick={hideModal} className='btn btn-primary w-100'>OK</button>
-					)}
-				/>
 				{/* banner */}
 				<Banner banners={banners} />
 				<div className="clear" />
@@ -67,7 +49,7 @@ export default function Home(props) {
 					<div className="wrap">
 						<section className="wrap">
 							<div className="playgroup-result">
-								<PlayGroup handleJoin={showModal} />
+								<PlayGroup />
 								<LottoResult items={results} />
 							</div>
 						</section>
@@ -93,8 +75,6 @@ export const getStaticProps = async (ctx) => {
 	try {
 
 		// const newsData = await parseXmlFile('data/news.xml');
-		// const newsData = await fetch('https://news.bitcoin.com/feed/');
-
 		const res = await Promise.all([
 			getAllDraws(),
 			getResultsByBrand(),
@@ -183,7 +163,7 @@ export const getStaticProps = async (ctx) => {
 				results,
 				news
 			},
-			revalidate: 10
+			revalidate: 60
 		}
 	} catch (error) {
 		console.log(error);
