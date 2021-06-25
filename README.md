@@ -1,4 +1,4 @@
-This is a current Website. [Next.js](https://dev.bitcoinlotterys.com/) 
+This is a current Website. [Bitcoin Lottery](https://dev.bitcoinlotterys.com/) 
 
 ## Getting Started
 
